@@ -1,208 +1,579 @@
 
-RS      equ     P1.3    ; define o pino RS do LCD como P1.3
-EN      equ     P1.2    ; define o pino EN do LCD como P1.2
+    RS      equ     P1.3   
+    EN      equ     P1.2    
 
 org 0000h
-	LJMP START        ; pula para o início do programa
+	LJMP START
 
 org 0030h
 START:
-	acall lcd_init    ; chama a função de inicialização do LCD
-	ACALL bemVindo    ; chama a função para mostrar "Bem Vindo" no display
-	ACALL aperteUm    ; chama a função para mostrar "Aperte 1" no display
-	JMP $             ; entra no loop para fazer essas funções aparecerem
+	acall lcd_init
+	ACALL bemVindo
+	ACALL pedidoEnviado
+	ACALL clearDisplay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL confirmando
+	ACALL adicionaIngredientes
 
-lcd_init:  ; parte de configuração do lcd
-	CLR RS		    
-	CLR P1.7         
-	CLR P1.6
-	SETB P1.5
+	JMP $
+
+
+
+lcd_init:
+
+	CLR RS		
+
+	CLR P1.7		
+	CLR P1.6		
+	SETB P1.5		
 	CLR P1.4	
-	SETB EN          ; habilita o LCD
-	CLR EN           ; desabilita o LCD para aplicar o comando
-	CALL delay       ; um delay para garantir o funcionamento e não sobrecarregar
 
-	SETB EN          ; reenvia comandos para o LCD
+	SETB EN		
+	CLR EN		
+
+	CALL delay		
+					
+	SETB EN		
+	CLR EN		
+				
+
+	SETB P1.7	
+
+	SETB EN		
 	CLR EN	
-	CALL delay       ; outro delay para garantir o funcionamento e não sobrecarregar
-	RET              ; retorna da função
+				
+	CALL delay		
+
+	CLR P1.7		
+	CLR P1.6		
+	CLR P1.5		
+	CLR P1.4		
+
+	SETB EN		
+	CLR EN	
+
+	SETB P1.6		
+	SETB P1.5	
+
+	SETB EN		
+	CLR EN		
+
+	CALL delay		
+
+	CLR P1.7		
+	CLR P1.6		
+	CLR P1.5		
+	CLR P1.4		
+
+	SETB EN		
+	CLR EN		
+
+	SETB P1.7		
+	SETB P1.6		
+	SETB P1.5		
+	SETB P1.4		
+
+	SETB EN		
+	CLR EN		
+
+	CALL delay		
+	RET
+
 
 sendCharacter:
-	SETB RS          ; prepara para enviar um caractere (RS = 1)
-	MOV C, ACC.7     
-	MOV P1.7, C
-
+	SETB RS  		
+	MOV C, ACC.7		
+	MOV P1.7, C			
 	MOV C, ACC.6		
 	MOV P1.6, C			
-	MOV C, ACC.5		
-	MOV P1.5, C
+	MOV C, ACC.5	
+	MOV P1.5, C			
 	MOV C, ACC.4		
-	MOV P1.4, C
-	SETB EN          
-	CLR EN           
-	
-	MOV C, ACC.3
-	MOV P1.7, C
+	MOV P1.4, C			
+
+	SETB EN			
+	CLR EN			
+
+	MOV C, ACC.3		
+	MOV P1.7, C			
 	MOV C, ACC.2		
-	MOV P1.6, C
+	MOV P1.6, C			
 	MOV C, ACC.1		
-	MOV P1.5, C
+	MOV P1.5, C	
 	MOV C, ACC.0		
-	MOV P1.4, C
-	SETB EN          ; envia o restante do caractere
-	CLR EN
-	CALL delay       ; delay que garante que o caractere foi exibido
+	MOV P1.4, C			
+
+	SETB EN			
+	CLR EN			
+
+	CALL delay			
 	RET
 
+
+;|--------------------------------------------------------------------------------------|
+;|linha 1 | 00 | 01 | 02 | 03 | 04 |05 | 06 | 07 | 08 | 09 |0A | 0B | 0C | 0D | 0E | 0F |
+;|linha 2 | 40 | 41 | 42 | 43 | 44 |45 | 46 | 47 | 48 | 49 |4A | 4B | 4C | 4D | 4E | 4F |
+;|--------------------------------------------------------------------------------------|
 posicionaCursor:
-	CLR RS           ; prepara para enviar comando de posição (RS = 0)
-	SETB P1.7        ; configura os bits da posição
+	CLR RS	         
+	SETB P1.7		    
 	MOV C, ACC.6		
 	MOV P1.6, C			
 	MOV C, ACC.5		
-	MOV P1.5, C
+	MOV P1.5, C			
 	MOV C, ACC.4		
-	MOV P1.4, C
-	SETB EN          ; habilita o LCD para posicionar o cursor
-	CLR EN
+	MOV P1.4, C			
 
-	MOV C, ACC.3
+	SETB EN			
+	CLR EN			
+
+	MOV C, ACC.3		
 	MOV P1.7, C			
 	MOV C, ACC.2
-	MOV P1.6, C
+	MOV P1.6, C			
 	MOV C, ACC.1		
-	MOV P1.5, C
+	MOV P1.5, C			
 	MOV C, ACC.0		
-	MOV P1.4, C
-	SETB EN          
-	CLR EN
-	CALL delay       
+	MOV P1.4, C			
+
+	SETB EN			
+	CLR EN			
+
+	CALL delay			
 	RET
+
+
 
 retornaCursor:
-	CLR RS           ; prepara para retornar o cursor ao início
-	CLR P1.7         ; limpa os bits
-	CLR P1.6
-	CLR P1.5
-	CLR P1.4
-	SETB EN          ; envia o comando para o LCD
-	CLR EN
-	; define a posição de volta ao início
+	CLR RS	      
+	CLR P1.7		
+	CLR P1.6		
+	CLR P1.5		
+	CLR P1.4	
+
+	SETB EN		
+	CLR EN		
+
+	CLR P1.7		
+	CLR P1.6		
 	SETB P1.5		
-	SETB P1.4
-	SETB EN
-	CLR EN
-	CALL delay       
+	SETB P1.4		
+
+	SETB EN		
+	CLR EN		
+
+	CALL delay		
 	RET
+
+
 
 clearDisplay:
-	CLR RS           ; prepara para limpar a tela (RS = 0) para aparecer a primeira frase
-	CLR P1.7         ; limpa os bits
-	CLR P1.6
-	CLR P1.5
-	CLR P1.4
-	SETB EN          ; habilita o LCD para limpar a tela
-	CLR EN
-	; finaliza a limpeza
-	CLR P1.5
-	SETB P1.4
-	SETB EN
-	CLR EN
-	CALL delay       
+	CLR RS	      
+	CLR P1.7		
+	CLR P1.6		
+	CLR P1.5		
+	CLR P1.4		
+
+	SETB EN		
+	CLR EN		
+
+	CLR P1.7		
+	CLR P1.6		
+	CLR P1.5		
+	SETB P1.4		
+
+	SETB EN		
+	CLR EN		
+
+	CALL delay
 	RET
 
+
 delay:
-	MOV R0, #50      ; define um pequeno atraso (laço de 50 contagens)
-	DJNZ R0, $       ; decrementa e repete até o contador zerar
-	RET              ; retorna da função
+	MOV R0, #50
+	DJNZ R0, $
+	RET
 
 bemVindo:
-	MOV A, #06h      ; move o cursor para a posição inicial
-	ACALL posicionaCursor
-	MOV A, #'B'      ; exibe o caractere 'B'
+	MOV A, #06h
+	ACALL posicionaCursor 
+	MOV A, #'B'
 	ACALL sendCharacter	
 	MOV A, #'E'
-	ACALL sendCharacter
-	; repete a mesma função para os outros caracteres da fraze "Bem vindo" e "Aperte 1"
+	ACALL sendCharacter	
 	MOV A, #'M'
 	ACALL sendCharacter	
 	CLR A
-	MOV A, #45h
+	mov A, #45h
 	ACALL posicionaCursor
 	MOV A, #'V'
 	ACALL sendCharacter
-	; Exibe "VINDO"
 	MOV A, #'I'
-	ACALL sendCharacter	
+	ACALL sendCharacter
 	MOV A, #'N'
 	ACALL sendCharacter
 	MOV A, #'D'
 	ACALL sendCharacter
 	MOV A, #'O'
 	ACALL sendCharacter
-	ACALL delay      ; aá um tempo para o texto ser visualizado
+	ACALL delay
 	RET
 
-aperteUm:
-	mov A, #03h      ; move o cursor para a posição desejada
+pedidoEnviado:
+	mov A, #05h
 	ACALL posicionaCursor 
-	MOV A, #'A'      ; exibe "APERTE 1"
-	ACALL sendCharacter	
 	MOV A, #'P'
 	ACALL sendCharacter	
 	MOV A, #'E'
 	ACALL sendCharacter	
-	MOV A, #'R'
+	MOV A, #'D'
+	ACALL sendCharacter	
+	MOV A, #'I'
 	ACALL sendCharacter
-	MOV A, #'T'
-	ACCALL sendCharacter
-	MOV A, #'E'
+	MOV A, #'D'
 	ACALL sendCharacter
-	MOV A, #'1'
+	MOV A, #'O'
 	ACALL sendCharacter
 
-	CLR A
-	MOV A, #41h      ; posiciona para a próxima linha
+	mov A, #45h
 	ACALL posicionaCursor 
-	; exibe "PARA COMEÇAR"
-	MOV A, #'P'
+	MOV A, #'E'
+	ACALL sendCharacter
+	MOV A, #'N'
+	ACALL sendCharacter
+ 	MOV A, #'V'
+	ACALL sendCharacter
+	MOV A, #'I'
 	ACALL sendCharacter
 	MOV A, #'A'
+	ACALL sendCharacter
+	MOV A, #'D'
+	ACALL sendCharacter
+	MOV A, #'O'
+	ACALL sendCharacter
+	RET
+
+confirmando:
+	SETB P1.0
+	SETB P1.1
+	SETB P1.2
+	SETB P1.3
+	SETB P1.4
+	SETB P1.5
+	SETB P1.6
+	SETB P1.7
+	
+	CLR A
+	MOV A, #00h
+	ACALL posicionaCursor 
+	MOV A, #'C'
 	ACALL sendCharacter	
+	MOV A, #'O'
+	ACALL sendCharacter	
+	MOV A, #'N'
+	ACALL sendCharacter	
+	MOV A, #'F'
+	ACALL sendCharacter
+	MOV A, #'I'
+	ACALL sendCharacter
 	MOV A, #'R'
 	ACALL sendCharacter
+	MOV A, #'M'
+	ACALL sendCharacter
 	MOV A, #'A'
 	ACALL sendCharacter
+	MOV A, #'N'
+	ACALL sendCharacter
+	MOV A, #'D'
+	ACALL sendCharacter
+	MOV A, #'O'
+	ACALL sendCharacter
+	MOV A, #' '
+	ACALL sendCharacter
+	MOV A, #'.'
+	ACALL sendCharacter
+	MOV A, #'.'
+	ACALL sendCharacter
+	MOV A, #'.'
+
+	ACALL delay
+
+	CLR P1.0
+	SETB P1.1
+	SETB P1.2
+	SETB P1.3
+	SETB P1.4
+	SETB P1.5
+	SETB P1.6
+	SETB P1.7
+
+	ACALL clearDisplay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+
+	CLR A
+	MOV A, #00h
+	ACALL posicionaCursor 
 	MOV A, #'C'
 	ACALL sendCharacter
 	MOV A, #'O'
+	ACALL sendCharacter
+	MOV A, #'N'
+	ACALL sendCharacter
+	MOV A, #'F'
+	ACALL sendCharacter
+	MOV A, #'I'
+	ACALL sendCharacter
+	MOV A, #'R'
+	ACALL sendCharacter
+	MOV A, #'M'
+	ACALL sendCharacter
+	MOV A, #'A'
+	ACALL sendCharacter
+	MOV A, #'D'
+	ACALL sendCharacter
+	MOV A, #'O'
+	ACALL sendCharacter
+
+	ACALL delay
+
+	CLR P1.0
+	SETB P1.1
+	SETB P1.2
+	SETB P1.3
+	SETB P1.4
+	SETB P1.5
+	SETB P1.6
+	SETB P1.7
+	RET
+
+adicionaIngredientes:
+	CLR P1.0
+	SETB P1.1
+	SETB P1.2
+	SETB P1.3
+	SETB P1.4
+	SETB P1.5
+	SETB P1.6
+	SETB P1.7
+	ACALL clearDisplay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+
+	MOV A, 00H
+	ACALL posicionaCursor
+	MOV A, #'I'
+	ACALL sendCharacter
+	MOV A, #'N'
+	ACALL sendCharacter
+	MOV A, #'G'
+	ACALL sendCharacter
+	MOV A, #'R'
+	ACALL sendCharacter
+	MOV A, #'E'
+	ACALL sendCharacter
+	MOV A, #'D'
+	ACALL sendCharacter
+	MOV A, #'I'
+	ACALL sendCharacter
+	MOV A, #'E'
+	ACALL sendCharacter
+	MOV A, #'N'
+	ACALL sendCharacter
+	MOV A, #'T'
+	ACALL sendCharacter
+	MOV A, #'E'
+	ACALL sendCharacter
+	MOV A, #'S'
+	ACALL sendCharacter
+
+	ACALL clearDisplay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+
+	MOV A, 40H
+	ACALL posicionaCursor
+	MOV A, #'1'
+	ACALL sendCharacter
+	MOV A, #'.'
+	ACALL sendCharacter
+	MOV A, #' '
+	ACALL sendCharacter
+	MOV A, #'O'
+	ACALL sendCharacter
+	MOV A, #'V'
+	ACALL sendCharacter
+	MOV A, #'O'
+	ACALL sendCharacter
+
+	MOV A, 40H
+	ACALL posicionaCursor
+	MOV A, #'2'
+	ACALL sendCharacter
+	MOV A, #'.'
+	ACALL sendCharacter
+	MOV A, #' '
+	ACALL sendCharacter
+	MOV A, #'F'
+	ACALL sendCharacter
+	MOV A, #'E'
+	ACALL sendCharacter
+	MOV A, #'R'
 	ACALL sendCharacter
 	MOV A, #'M'
 	ACALL sendCharacter
 	MOV A, #'E'
 	ACALL sendCharacter
+	MOV A, #'N'
+	ACALL sendCharacter
+	MOV A, #'T'
+	ACALL sendCharacter
+	MOV A, #'O'
+	ACALL sendCharacter	
+
+	MOV A, 40H
+	ACALL posicionaCursor
+	MOV A, #'3'
+	ACALL sendCharacter
+	MOV A, #'.'
+	ACALL sendCharacter
+	MOV A, #' '
+	ACALL sendCharacter
+	MOV A, #'F'
+	ACALL sendCharacter
+	MOV A, #'A'
+	ACALL sendCharacter
+	MOV A, #'R'
+	ACALL sendCharacter
+	MOV A, #'I'
+	ACALL sendCharacter
+	MOV A, #'N'
+	ACALL sendCharacter
+	MOV A, #'H'
+	ACALL sendCharacter
+	MOV A, #'A'
+	ACALL sendCharacter
+	
+	MOV A, 40H
+	ACALL posicionaCursor
+	MOV A, #'4'
+	ACALL sendCharacter
+	MOV A, #'.'
+	ACALL sendCharacter
+	MOV A, #' '
+	ACALL sendCharacter
+	MOV A, #'A'
+	ACALL sendCharacter
+	MOV A, #'C'
+	ACALL sendCharacter
+	MOV A, #'U'
+	ACALL sendCharacter
 	MOV A, #'C'
 	ACALL sendCharacter
 	MOV A, #'A'
 	ACALL sendCharacter
 	MOV A, #'R'
 	ACALL sendCharacter
-	ACALL botao       ; espera o usuário apertar o botão
-	RET
 
-botao:
-	MOV P1, 0xFF     ; prepara o pino para checar o botão
-	JB P1.0, botaoNao ; se o botão não foi pressionado, checa novamente
-	ACALL mistura    ; se foi pressionado, chama a função mistura
-	RET
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
 
-botaoNao:
-	SJMP botao       ; se o botão não foi pressionado, volta e checa de novo
+	ACALL clearDisplay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
+	ACALL delay
 
-mistura:
-	MOV P2,#0x01     
-	CALL delay       
+	MOV A, 00H
+	ACALL posicionaCursor
+	MOV A, #'A'
+	ACALL sendCharacter
+	MOV A, #'D'
+	ACALL sendCharacter
+	MOV A, #'I'
+	ACALL sendCharacter
+	MOV A, #'C'
+	ACALL sendCharacter
+	MOV A, #'I'
+	ACALL sendCharacter
+	MOV A, #'O'
+	ACALL sendCharacter
+	MOV A, #'N'
+	ACALL sendCharacter
+	MOV A, #'A'
+	ACALL sendCharacter
+	MOV A, #'D'
+	ACALL sendCharacter
+	MOV A, #'O'
+	ACALL sendCharacter
+
+	CLR P1.0
+	CLR P1.1
+	SETB P1.2
+	SETB P1.3
+	SETB P1.4
+	SETB P1.5
+	SETB P1.6
+	SETB P1.7
 	RET
-	
-	; apartir da ultima frase que aparece no delay, precismos implementar a continuação do codigo com as 
-	; funções do passo a passo do processo de compra de um bolo, com os botões funcionando e os leds referente a cada processo
