@@ -1,5 +1,5 @@
 # Programa Automatizado para Casa de Bolos Caseiros
-##Projeto 1 de Arquitetura de Computadores
+## Projeto 1 de Arquitetura de Computadores
 
   ### Este projeto foi desenvolvido com o propósito de nos desafiar a aplicar na prática os conhecimentos adquiridos em teoria e nos laboratórios durante as aulas, integrando-os em uma única implementação. 
   
