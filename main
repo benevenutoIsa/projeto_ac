@@ -301,7 +301,7 @@ RS      equ     P1.3
        
  	MOV A, #02H
  	ACALL posicionaCursor
- 	MOV A, #'1'
+ 	MOV A, #'0'
  	ACALL sendCharacter
  	MOV A, #'.'
  	ACALL sendCharacter
@@ -319,7 +319,7 @@ RS      equ     P1.3
       	
  	MOV A, #02H
  	ACALL posicionaCursor
- 	MOV A, #'2'
+ 	MOV A, #'1'
  	ACALL sendCharacter
  	MOV A, #'.'
  	ACALL sendCharacter
@@ -343,7 +343,7 @@ RS      equ     P1.3
       	
  	MOV A, #02H
  	ACALL posicionaCursor
- 	MOV A, #'3'
+ 	MOV A, #'2'
  	ACALL sendCharacter
  	MOV A, #'.'
  	ACALL sendCharacter
@@ -367,7 +367,7 @@ RS      equ     P1.3
       	
  	MOV A, #02H
  	ACALL posicionaCursor
- 	MOV A, #'4'
+ 	MOV A, #'3'
  	ACALL sendCharacter
  	MOV A, #'.'
  	ACALL sendCharacter
@@ -842,7 +842,7 @@ realizaPagamento:
 
 	MOV A, #04h
 	ACALL posicionaCursor
-	MOV A, #'1'
+	MOV A, #'0'
 	ACALL sendCharacter
 	MOV A, #'.'
 	ACALL sendCharacter
@@ -862,7 +862,7 @@ realizaPagamento:
 
 	MOV A, #04h
 	ACALL posicionaCursor
-	MOV A, #'2'
+	MOV A, #'1'
 	ACALL sendCharacter
 	MOV A, #'.'
 	ACALL sendCharacter
@@ -889,6 +889,9 @@ realizaPagamento:
        
       ;---------------------------------- mensagem de confirmação do pagamento no display
 confimaPagamento:
+	ACALL clearDisplay
+ 	ACALL delayDisplay
+
  	MOV A, #02h
  	ACALL posicionaCursor 
  	MOV A, #'C'
