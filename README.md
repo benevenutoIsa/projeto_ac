@@ -14,11 +14,11 @@
 #### Feedback visual: O cliente é informado sobre o andamento do processo, acompanhando a preparação e a finalização em tempo real.
 #### Automação de processos: Conceito de automação aplicado a uma loja fictícia de bolos, com foco na transparência do processo e na experiência do cliente.
 
-  ### Segue abaixo algumas fotos do projeto funcionando:
-  ![Primeira interação com botão](funcionando/botão.png)
-  ![Parte com inserção pelo txt](funcionando/senha.png)
-  ![Mostrando os leds](funcionando/leds.png)
+  ### Segue abaixo algumas fotos das partes principais do projeto:
+  ![Primeira interação com botão](imagens/botão.png)
+  ![Parte com inserção pelo txt](imagens/leds.png)
+  ![Mostrando os leds](imagens/senha.png)
     OBS: Na parte dos leds, selecionamos uma parte do projeto onde todos ja estavam acesos, mas no desenvolvimento do codigo os leds acendem um por vez (com as cores que foram definidas no fluxograma) até chegar a parte final onde todos permanecem acessos mostrando que foi concluido. 
 
 ## Fluxograma
-  ![fluxograma](funcionando/fluxograma.pdf)
+  ![fluxograma](imagens/flux.png)
