@@ -21,4 +21,4 @@
     OBS: Na parte dos leds, selecionamos uma parte do projeto onde todos ja estavam acesos, mas no desenvolvimento do codigo os leds acendem um por vez (com as cores que foram definidas no fluxograma) até chegar a parte final onde todos permanecem acessos mostrando que foi concluido. 
 
 ## Fluxograma
-  ![fluxograma](imagens/flux.png)
+  ![fluxograma](imagens/flux.jpg)
