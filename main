@@ -9,16 +9,16 @@ RS      equ     P1.3
  	acall lcd_init ; inicia o LCD
  	ACALL bemVindo ; chama a função de bem vindo
  	ACALL opcoesDisponiveis ;mostra as opções disponíveis
- 	ACALL escolheOpcao ;ok
- 	ACALL pedidoConfirmado ;ok
- 	ACALL enviadoProducao  ;ok
- 	ACALL processando ;ok
-	ACALL realizaPagamento ;ok
-	ACALL escolhePagamento ;ok
-	ACALL digiteSuaSenha
-	ACALL pedeSenha
- 	ACALL confimaPagamento ;ok
- 	ACALL enviado ;ok
+ 	ACALL escolheOpcao ; função para escolher uma opção de sabor do bolo
+ 	ACALL pedidoConfirmado ; pedido confirmado
+ 	ACALL enviadoProducao  ; exibe enviado para produção
+ 	ACALL processando ; precessa o pedido e exibe pedido feito
+	ACALL realizaPagamento ; exibe que será realizado o pagamento
+	ACALL escolhePagamento ; escolhe a opção de pagamento
+	ACALL digiteSuaSenha; exibe digite sua senha
+	ACALL pedeSenha ; recebe a senha do usuário
+ 	ACALL confimaPagamento ; exibe pagamento confirmado
+ 	ACALL enviado ; exibe pedido enviado
  	JMP $
        
        
@@ -202,18 +202,22 @@ RS      equ     P1.3
        
       ;---------------------------------- bem vindo no displaya
       bemVindo:
- 	MOV A, #06h
- 	ACALL posicionaCursor 
- 	MOV A, #'B'
- 	ACALL sendCharacter	
- 	MOV A, #'E'
- 	ACALL sendCharacter	
+ 	MOV A, #06h ; move 06 para A
+ 	ACALL posicionaCursor ; posiciona o cursor na posição 6
+
+ 	MOV A, #'B' ; exibe "BEM" no display
+ 	ACALL sendCharacter 
+ 	MOV A, #'E' 
+ 	ACALL sendCharacter
  	MOV A, #'M'
  	ACALL sendCharacter	
- 	CLR A
- 	mov A, #45h
- 	ACALL posicionaCursor
- 	MOV A, #'V'
+
+ 	CLR A ; limpa o valor de A
+
+ 	MOV A, #45h ; move 45 para A
+ 	ACALL posicionaCursor ; posiciona o cursor na posição 45
+
+ 	MOV A, #'V' ; exibe "VINDO" no display
  	ACALL sendCharacter
  	MOV A, #'I'
  	ACALL sendCharacter
@@ -226,37 +230,42 @@ RS      equ     P1.3
  	MOV A, #'S'
  	ACALL sendCharacter
 
- 	SETB P1.0
- 	SETB P1.1
- 	SETB P1.2
- 	SETB P1.3
- 	SETB P1.4
- 	SETB P1.5
- 	SETB P1.6
- 	SETB P1.7
+ 	SETB P1.0 ;seta p1.0 como alto
+ 	SETB P1.1 ;seta p1.1 como alto
+ 	SETB P1.2 ;seta p1.2 como alto
+ 	SETB P1.3 ;seta p1.3 como alto
+ 	SETB P1.4 ;seta p1.4 como alto
+ 	SETB P1.5 ;seta p1.5 como alto
+ 	SETB P1.6 ;seta p1.6 como alto
+ 	SETB P1.7 ;seta p1.7 como alto
 
- 	ACALL delayDisplay
+ 	ACALL delayDisplay ;chama o delay do display
  	RET
+
+
       ;---------------------------------- 
        
       ;---------------------------------- opções disponiveis no display
+
+
       opcoesDisponiveis:
-	ACALL clearDisplay
+	ACALL clearDisplay ;limpa o display
 
-	SETB P1.0
- 	SETB P1.1
- 	SETB P1.2
- 	SETB P1.3
- 	SETB P1.4
- 	SETB P1.5
- 	SETB P1.6
- 	SETB P1.7
+	SETB P1.0 ;seta p1.0 como alto
+ 	SETB P1.1 ;seta p1.1 como alto
+ 	SETB P1.2 ;seta p1.2 como alto
+ 	SETB P1.3 ;seta p1.3 como alto
+ 	SETB P1.4 ;seta p1.4 como alto
+ 	SETB P1.5 ;seta p1.5 como alto
+ 	SETB P1.6 ;seta p1.6 como alto
+ 	SETB P1.7 ;seta p1.7 como alto
 
-	ACALL delayDisplay
+	ACALL delayDisplay ; chama o delay do display
 
- 	MOV A, #04H
- 	ACALL posicionaCursor
- 	MOV A, #'O'
+ 	MOV A, #04H ; move 04 para A
+ 	ACALL posicionaCursor ; posiciona o cursor na posição 4
+
+ 	MOV A, #'O' ; exibe "OPÇÕES"  no display
  	ACALL sendCharacter
  	MOV A, #'P'
  	ACALL sendCharacter
@@ -268,10 +277,13 @@ RS      equ     P1.3
  	ACALL sendCharacter
  	MOV A, #'S'
  	ACALL sendCharacter
- 	CLR A
- 	MOV A, #42H
- 	ACALL posicionaCursor
- 	MOV A, #'D'
+
+ 	CLR A ; limpa o o valor armazenado no A
+
+ 	MOV A, #42H ; move 42 para A
+ 	ACALL posicionaCursor ; posiciona o cursor na posição 42
+
+ 	MOV A, #'D' ; exibe "DISPONIVEIS" no display
  	ACALL sendCharacter
  	MOV A, #'I'
  	ACALL sendCharacter
@@ -293,15 +305,17 @@ RS      equ     P1.3
  	ACALL sendCharacter
  	MOV A, #'S'
  	ACALL sendCharacter
- 	ACALL delay
+
+ 	ACALL delay ;chama o delay
        
- 	ACALL clearDisplay
- 	ACALL delayDisplay
+ 	ACALL clearDisplay ;limpa o display
+ 	ACALL delayDisplay ; chama o delay do display
 
        
- 	MOV A, #02H
- 	ACALL posicionaCursor
- 	MOV A, #'0'
+ 	MOV A, #02H ; move 02 para A
+ 	ACALL posicionaCursor ;posiciona o cursor na posição 2
+
+ 	MOV A, #'0' ; exibe "0.FUBA" no display
  	ACALL sendCharacter
  	MOV A, #'.'
  	ACALL sendCharacter
@@ -315,11 +329,13 @@ RS      equ     P1.3
  	ACALL sendCharacter
  	MOV A, #'A'
  	ACALL sendCharacter
- 	CLR A
+
+ 	CLR A ;limpa a o A
       	
- 	MOV A, #02H
- 	ACALL posicionaCursor
- 	MOV A, #'1'
+ 	MOV A, #02H ; move 02 para A
+ 	ACALL posicionaCursor ;posicona o cursor na posição 2
+
+ 	MOV A, #'1' ;exibe "1.CENOURA" no display
  	ACALL sendCharacter
  	MOV A, #'.'
  	ACALL sendCharacter
@@ -339,11 +355,13 @@ RS      equ     P1.3
  	ACALL sendCharacter
  	MOV A, #'A'
  	ACALL sendCharacter
- 	CLR A
+
+ 	CLR A ;limpa o A
       	
- 	MOV A, #02H
- 	ACALL posicionaCursor
- 	MOV A, #'2'
+ 	MOV A, #02H ; move 02 para A
+ 	ACALL posicionaCursor ; posiciona o cursor na posição 2
+
+ 	MOV A, #'2'  ;exibe "2.LARANJA" no display
  	ACALL sendCharacter
  	MOV A, #'.'
  	ACALL sendCharacter
@@ -363,11 +381,13 @@ RS      equ     P1.3
  	ACALL sendCharacter
  	MOV A, #'A'
  	ACALL sendCharacter
- 	CLR A
+ 	
+	CLR A ;limpa o A
       	
- 	MOV A, #02H
- 	ACALL posicionaCursor
- 	MOV A, #'3'
+ 	MOV A, #02H ; move 02 para A
+ 	ACALL posicionaCursor ; posiciona o cursor na posição 2
+
+ 	MOV A, #'3' ; ;exibe "3.CHOCOLATE" no display
  	ACALL sendCharacter
  	MOV A, #'.'
  	ACALL sendCharacter
@@ -391,24 +411,26 @@ RS      equ     P1.3
  	ACALL sendCharacter
  	MOV A, #'E'
  	ACALL sendCharacter
- 	CLR A
+ 	
+	CLR A ;limpa o A
        
- 	ACALL clearDisplay
+ 	ACALL clearDisplay ;limpa o display
 
-	SETB P1.0
- 	SETB P1.1
- 	SETB P1.2
- 	SETB P1.3
- 	SETB P1.4
- 	SETB P1.5
- 	SETB P1.6
- 	SETB P1.7
+	SETB P1.0 ;seta p1.0 como alto
+ 	SETB P1.1 ;seta p1.1 como alto
+ 	SETB P1.2 ;seta p1.2 como alto
+ 	SETB P1.3 ;seta p1.3 como alto
+ 	SETB P1.4 ;seta p1.4 como alto
+ 	SETB P1.5 ;seta p1.5 como alto
+ 	SETB P1.6 ;seta p1.6 como alto
+ 	SETB P1.7 ;seta p1.7 como alto
 
- 	ACALL delayDisplay
+ 	ACALL delayDisplay ; chama o delay do display
 
- 	MOV A, #02H
- 	ACALL posicionaCursor
- 	MOV A, #'S'
+ 	MOV A, #02H ; move 02 para A
+ 	ACALL posicionaCursor ; posiciona o cursor na posição 2
+
+ 	MOV A, #'S' ;exibe "SELECIONE" no display
  	ACALL sendCharacter
  	MOV A, #'E'
  	ACALL sendCharacter
@@ -428,11 +450,13 @@ RS      equ     P1.3
  	ACALL sendCharacter
  	MOV A, #'A'
  	ACALL sendCharacter
-	CLR A
 
- 	MOV A, #46H
- 	ACALL posicionaCursor
- 	MOV A, #'O'
+	CLR A ;limpa o A
+
+ 	MOV A, #46H ; move 46 para A
+ 	ACALL posicionaCursor ; posiciona o cursor na posição 46
+
+ 	MOV A, #'O' ;exibe "OPCOES" no display
  	ACALL sendCharacter
  	MOV A, #'P'
  	ACALL sendCharacter
@@ -442,43 +466,40 @@ RS      equ     P1.3
  	ACALL sendCharacter
  	MOV A, #'O'
  	ACALL sendCharacter
- 	CLR A
+
+ 	CLR A; limpa o A
 
  	RET
+
+
       ;---------------------------------- 
        
       ;---------------------------------- implementação dos botões para escolher o bolo
-      escolheOpcao:
-      	; Configura as linhas de controle como entrada
+
+
+    escolheOpcao:
 	MOV P2, #0FFH        ; Configura P2 como entrada (todos os bits em 1)
   	MOV A, P2            ; Lê o valor de P2
 
-    ; Verifica se nenhum botão foi pressionado (todos os bits de P2 em 1)
-  	CJNE A, #0FFH, CHECA_BOTOES   ; Se A não for 0xFF, verifica os botões
+  	CJNE A, #0FFH, checa_Botoes   ; Se A não for 0xFF, verifica os botões
   	SJMP escolheOpcao                     
-		
-		; Mantenha as outras linhas como saída
        
-      	; Aguarde até que um botão seja pressionado
-CHECA_BOTOES:
-    ; Verifica qual botão está pressionado, pulando para a opção correspondente
-    JNB P2.0, OPCAO1   ; Se P2.0 for 0, vai para OPCAO1
-    JNB P2.1, OPCAO2   ; Se P2.1 for 0, vai para OPCAO2
-    JNB P2.2, OPCAO3   ; Se P2.2 for 0, vai para OPCAO3
-    JNB P2.3, OPCAO4   ; Se P2.3 for 0, vai para OPCAO4
+    checa_Botoes: ; Aguarde até que um botão seja pressionado
+   	JNB P2.0, OPCAO1   ; Se P2.0 for 0, vai para OPCAO1  ; Verifica qual botão está pressionado, pulando para a opção correspondente
+	JNB P2.1, OPCAO2   ; Se P2.1 for 0, vai para OPCAO2
+    	JNB P2.2, OPCAO3   ; Se P2.2 for 0, vai para OPCAO3  
+    	JNB P2.3, OPCAO4   ; Se P2.3 for 0, vai para OPCAO4
 
-    SJMP escolheOpcao          ; Retorna ao loop principal se nenhum botão está pressionado
-     ; Volte a verificar se um botão foi pressionado
+    	SJMP escolheOpcao          ; Retorna ao loop principal se nenhum botão está pressionado
        
-      ; Definindo as opções
-      OPCAO1:
-      	; Exibir opção 1: "FUBA"
- 	ACALL clearDisplay
- 	ACALL delayDisplay
+    OPCAO1:
+ 	ACALL clearDisplay ;limpa o display
+ 	ACALL delayDisplay ; chama o delay do display
 
- 	MOV A, #02H
- 	ACALL posicionaCursor
- 	MOV A, #'F'
+ 	MOV A, #02H ; move 02 para A
+ 	ACALL posicionaCursor ; posiciona o cursor na posição 2
+
+ 	MOV A, #'F'  ; Exibir opção 1: "FUBA"
  	ACALL sendCharacter
  	MOV A, #'U'
  	ACALL sendCharacter
@@ -490,13 +511,13 @@ CHECA_BOTOES:
 	RET
        
       OPCAO2:
-      	; Exibir opção 2: "CENOURA"
- 	ACALL clearDisplay
- 	ACALL delayDisplay
+ 	ACALL clearDisplay ;limpa o display
+ 	ACALL delayDisplay ; chama o delay do display
 
- 	MOV A, #02H
- 	ACALL posicionaCursor
- 	MOV A, #'C'
+ 	MOV A, #02H ; move 02 para A
+ 	ACALL posicionaCursor ; posiciona o cursor na posição 2
+
+ 	MOV A, #'C' ; Exibir opção 2: "CENOURA"
  	ACALL sendCharacter
  	MOV A, #'E'
  	ACALL sendCharacter
@@ -514,13 +535,13 @@ CHECA_BOTOES:
 	RET
        
       OPCAO3:
-      	; Exibir opção 3: "LARANJA"
- 	ACALL clearDisplay
- 	ACALL delayDisplay
+ 	ACALL clearDisplay ;limpa o display
+ 	ACALL delayDisplay ; chama o delay do display
 
- 	MOV A, #02H
- 	ACALL posicionaCursor
- 	MOV A, #'L'
+ 	MOV A, #02H ; move 02 para A
+ 	ACALL posicionaCursor ; posiciona o cursor na posição 2
+
+ 	MOV A, #'L' ; Exibir opção 3: "LARANJA"
  	ACALL sendCharacter
  	MOV A, #'A'
  	ACALL sendCharacter
@@ -537,14 +558,14 @@ CHECA_BOTOES:
  	ACALL delay
 	RET
        
-      OPCAO4:
-      	; Exibir opção 4: "CHOCOLOTE"
- 	ACALL clearDisplay
- 	ACALL delayDisplay
+      OPCAO4:     	
+ 	ACALL clearDisplay ;limpa o display
+ 	ACALL delayDisplay ; chama o delay do display
 
- 	MOV A, #02H
- 	ACALL posicionaCursor
- 	MOV A, #'C'
+ 	MOV A, #02H ; move 02 para A
+ 	ACALL posicionaCursor ; posiciona o cursor na posição 2
+
+ 	MOV A, #'C'  ; Exibir opção 4: "CHOCOLOTE"
  	ACALL sendCharacter
  	MOV A, #'H'
  	ACALL sendCharacter
@@ -565,26 +586,30 @@ CHECA_BOTOES:
  	ACALL delay
 	RET
       	
+
       ;---------------------------------- 
        
       ;----------------------------------pedido confimado no display
+
+
       pedidoConfirmado:
-	ACALL clearDisplay
+	ACALL clearDisplay ; limpa o display
 
-	SETB P1.0
- 	SETB P1.1
- 	SETB P1.2
- 	SETB P1.3
- 	SETB P1.4
- 	SETB P1.5
- 	SETB P1.6
- 	CLR P1.7
+	SETB P1.0 ;seta p1.0 como alto
+ 	SETB P1.1 ;seta p1.1 como alto
+ 	SETB P1.2 ;seta p1.2 como alto
+ 	SETB P1.3 ;seta p1.3 como alto
+ 	SETB P1.4 ;seta p1.4 como alto
+ 	SETB P1.5 ;seta p1.5 como alto
+ 	SETB P1.6 ;seta p1.6 como alto
+ 	CLR P1.7 ;seta p1.7 como baixo
 
-	ACALL delayDisplay
+	ACALL delayDisplay ; chama o delay do display
 
- 	mov A, #05h
- 	ACALL posicionaCursor 
- 	MOV A, #'P'
+ 	mov A, #05h ; move 05 para A
+ 	ACALL posicionaCursor  ; posiciona o cursor na posição 5
+
+ 	MOV A, #'P' ;exibe "PEDIDO" no display
  	ACALL sendCharacter	
  	MOV A, #'E'
  	ACALL sendCharacter	
@@ -596,10 +621,13 @@ CHECA_BOTOES:
  	ACALL sendCharacter
  	MOV A, #'O'
  	ACALL sendCharacter
- 	CLR A
- 	mov A, #44h
- 	ACALL posicionaCursor 
- 	MOV A, #'R'
+
+ 	CLR A ;limpa o A
+
+ 	mov A, #44h ; move 44 para A
+ 	ACALL posicionaCursor ; posiciona o cursor na posição 44
+
+ 	MOV A, #'R' ; exibe "RECEBIDO" no display
  	ACALL sendCharacter
  	MOV A, #'E'
  	ACALL sendCharacter
@@ -616,27 +644,32 @@ CHECA_BOTOES:
  	MOV A, #'O'
  	ACALL sendCharacter
 
-	ACALL clearDisplay
+	ACALL clearDisplay ;limpa o display
 
-	SETB P1.0
- 	SETB P1.1
- 	SETB P1.2
- 	SETB P1.3
- 	SETB P1.4
- 	SETB P1.5
- 	CLR P1.6
- 	CLR P1.7
+	SETB P1.0 ;seta p1.0 como alto
+ 	SETB P1.1 ;seta p1.1 como alto
+ 	SETB P1.2 ;seta p1.2 como alto
+ 	SETB P1.3 ;seta p1.3 como alto
+ 	SETB P1.4 ;seta p1.4 como alto
+ 	SETB P1.5 ;seta p1.5 como alto
+ 	CLR P1.6 ;seta p1.6 como baixo
+ 	CLR P1.7 ;seta p1.7 como baixo
 
- 	ACALL delayDisplay
+ 	ACALL delayDisplay ; chama o delay do display
 
  	RET
+
+
       ;----------------------------------
        
       ;---------------------------------- pedido enviado para produção display
+
+
       enviadoProducao:
- 	MOV A, #02h
- 	ACALL posicionaCursor 
- 	MOV A, #'E'
+ 	MOV A, #02h ; move 02 para A
+ 	ACALL posicionaCursor ; posiciona o cursor na posição 2
+
+ 	MOV A, #'E' ;exibe "ENVIADO PARA" no display
  	ACALL sendCharacter	
  	MOV A, #'N'
  	ACALL sendCharacter	
@@ -661,10 +694,12 @@ CHECA_BOTOES:
  	MOV A, #'A'
  	ACALL sendCharacter
  	
-	CLR A
- 	mov A, #44h
- 	ACALL posicionaCursor 
- 	MOV A, #'P'
+	CLR A ;limpa o A
+
+ 	mov A, #44h ; move 44 para A
+ 	ACALL posicionaCursor ; posiciona o cursor na posição 44
+
+ 	MOV A, #'P' ;exibe "PRODUCAO" no display
  	ACALL sendCharacter
  	MOV A, #'R'
  	ACALL sendCharacter
@@ -680,26 +715,32 @@ CHECA_BOTOES:
  	ACALL sendCharacter
  	MOV A, #'O'
  	ACALL sendCharacter
- 	ACALL clearDisplay
 
-	SETB P1.0
- 	SETB P1.1
- 	SETB P1.2
- 	SETB P1.3
- 	SETB P1.4
- 	CLR P1.5
- 	CLR P1.6
- 	CLR P1.7
+ 	ACALL clearDisplay ;limpa o display
 
- 	ACALL delayDisplay
+	SETB P1.0 ;seta p1.0 como alto
+ 	SETB P1.1 ;seta p1.1 como alto
+ 	SETB P1.2 ;seta p1.2 como alto
+ 	SETB P1.3 ;seta p1.3 como alto
+ 	SETB P1.4 ;seta p1.4 como alto
+ 	CLR P1.5 ;seta p1.5 como baixo
+ 	CLR P1.6 ;seta p1.6 como baixo
+ 	CLR P1.7 ;seta p1.7 como baixo
+
+ 	ACALL delayDisplay ; chama o delay do display
  	RET
        
-      ;---------------------------------- confimando, em produção e  produção finalizada no display separadamente
+	;------------------------------------------------------
+      	;---------------------------------- confimando, em produção e  produção finalizada no display separadamente
+
+
       processando: 	
- 	CLR A
- 	MOV A, #00h
- 	ACALL posicionaCursor 
- 	MOV A, #'E'
+ 	CLR A ;limpa o A
+
+ 	MOV A, #00h ; move 00 para A
+ 	ACALL posicionaCursor ; posiciona o cursor na posição 0
+
+ 	MOV A, #'E' ;exibe "EM PRODUCAO..." no display
  	ACALL sendCharacter	
  	MOV A, #'M'
  	ACALL sendCharacter	
@@ -730,14 +771,16 @@ CHECA_BOTOES:
  	MOV A, #'.'
  	ACALL sendCharacter
 
-	ACALL delayDisplay
- 	ACALL clearDisplay
- 	ACALL delayDisplay
+	ACALL delayDisplay ; chama o delay do display para simular a produção
+ 	ACALL clearDisplay ;limpa o display
+ 	ACALL delayDisplay ; chama o delay do display 
 
- 	CLR A
- 	MOV A, #05h
- 	ACALL posicionaCursor 
- 	MOV A, #'P'
+ 	CLR A ;limpa o A
+
+ 	MOV A, #05h ; move 05 para A
+ 	ACALL posicionaCursor ; posiciona o cursor na posição 5
+
+ 	MOV A, #'P' ;exibe "PRODUCAO" no display
  	ACALL sendCharacter
  	MOV A, #'R'
  	ACALL sendCharacter
@@ -753,10 +796,13 @@ CHECA_BOTOES:
  	ACALL sendCharacter
  	MOV A, #'O'
  	ACALL sendCharacter
- 	CLR A 
- 	mov A, #44h
- 	ACALL posicionaCursor 
- 	MOV A, #'F'
+
+ 	CLR A ;limpa o A
+
+ 	mov A, #44h ; move 44 para A
+ 	ACALL posicionaCursor ; posiciona o cursor na posição 44
+
+ 	MOV A, #'F' ;exibe "FINALIZADA" no display
  	ACALL sendCharacter
  	MOV A, #'I'
  	ACALL sendCharacter
@@ -777,25 +823,31 @@ CHECA_BOTOES:
  	MOV A, #'A'
  	ACALL sendCharacter
       	
- 	ACALL clearDisplay
+ 	ACALL clearDisplay ;limpa o display
 
-	SETB P1.0
- 	SETB P1.1
- 	SETB P1.2
- 	SETB P1.3
- 	CLR P1.4
- 	CLR P1.5
- 	CLR P1.6
- 	CLR P1.7
+	SETB P1.0 ;seta p1.0 como alto
+ 	SETB P1.1 ;seta p1.1 como alto
+ 	SETB P1.2 ;seta p1.2 como alto
+ 	SETB P1.3 ;seta p1.3 como alto
+ 	CLR P1.4 ;seta p1.4 como baixo
+ 	CLR P1.5 ;seta p1.5 como baixo
+ 	CLR P1.6 ;seta p1.6 como baixo
+ 	CLR P1.7 ;seta p1.7 como baixo
 
- 	ACALL delayDisplay
+ 	ACALL delayDisplay ; chama o delay do display
  	RET
-      ;----------------------------------
 
-realizaPagamento:
-	MOV A, #02h
-	ACALL posicionaCursor
-	MOV A, #'M'
+
+	;-----------------------------------------------
+
+	;---------------------------------------------- função de realizar pagamento
+
+
+     realizaPagamento:
+	MOV A, #02h ; move 02 para A
+	ACALL posicionaCursor ; posiciona o cursor na posição 2
+
+	MOV A, #'M' ;exibe "METODO DE" no display
 	ACALL sendCharacter
 	MOV A, #'E'
 	ACALL sendCharacter
@@ -813,11 +865,13 @@ realizaPagamento:
 	ACALL sendCharacter
 	MOV A, #'E'
 	ACALL sendCharacter
-	CLR A
 
-	MOV A, #44h
-	ACALL posicionaCursor
-	MOV A, #'P'
+	CLR A ;limpa o A
+
+	MOV A, #44h ; move 44 para A
+	ACALL posicionaCursor ; posiciona o cursor na posição 44
+
+	MOV A, #'P' ;exibe "PAGAMENTO" no display
 	ACALL sendCharacter
 	MOV A, #'A'
 	ACALL sendCharacter
@@ -835,14 +889,16 @@ realizaPagamento:
 	ACALL sendCharacter
 	MOV A, #'O'
 	ACALL sendCharacter
-	CLR A
 
-	ACALL clearDisplay
-	ACALL delayDisplay
+	CLR A ;limpa o A
 
-	MOV A, #04h
-	ACALL posicionaCursor
-	MOV A, #'0'
+	ACALL clearDisplay ;limpa o display
+	ACALL delayDisplay ; chama o delay do display
+
+	MOV A, #04h ; move 04 para A
+	ACALL posicionaCursor ; posiciona o cursor na posição 4
+
+	MOV A, #'0' ;exibe "0.DEBITO" no display
 	ACALL sendCharacter
 	MOV A, #'.'
 	ACALL sendCharacter
@@ -860,9 +916,10 @@ realizaPagamento:
 	ACALL sendCharacter
 
 
-	MOV A, #04h
-	ACALL posicionaCursor
-	MOV A, #'1'
+	MOV A, #04h ; move 04 para A
+	ACALL posicionaCursor ; posiciona o cursor na posição 4
+
+	MOV A, #'1' ;exibe "1.CREDITO" no display
 	ACALL sendCharacter
 	MOV A, #'.'
 	ACALL sendCharacter
@@ -880,21 +937,28 @@ realizaPagamento:
 	ACALL sendCharacter
 	MOV A, #'O'
 	ACALL sendCharacter
-	CLR A
 
- 	ACALL clearDisplay
- 	ACALL delayDisplay
+	CLR A ;limpa o A
+
+ 	ACALL clearDisplay ;limpa o display
+ 	ACALL delayDisplay ; chama o delay do display
 	
 	RET	
-       
-      ;---------------------------------- mensagem de confirmação do pagamento no display
-confimaPagamento:
-	ACALL clearDisplay
- 	ACALL delayDisplay
 
- 	MOV A, #02h
- 	ACALL posicionaCursor 
- 	MOV A, #'C'
+
+       	;----------------------------------
+
+      	;---------------------------------- mensagem de confirmação do pagamento no display
+
+
+confimaPagamento:
+ 	ACALL clearDisplay ;limpa o display
+ 	ACALL delayDisplay ; chama o delay do display
+
+ 	MOV A, #02h ; move 02 para A
+ 	ACALL posicionaCursor ; posiciona o cursor na posição 2
+
+ 	MOV A, #'C' ;exibe "CONFIRMANDO" no display
  	ACALL sendCharacter	
  	MOV A, #'O'
  	ACALL sendCharacter	
@@ -916,10 +980,13 @@ confimaPagamento:
  	ACALL sendCharacter
  	MOV A, #'O'
  	ACALL sendCharacter
- 	CLR A
- 	mov A, #43h
+
+ 	CLR A ;limpa o A
+
+ 	mov A, #43h ; posiciona o cursor na posição 43
  	ACALL posicionaCursor
- 	MOV A, #'P'
+
+ 	MOV A, #'P' ;exibe "PAGAMENTO" no display
  	ACALL sendCharacter
  	MOV A, #'A'
  	ACALL sendCharacter
@@ -937,26 +1004,32 @@ confimaPagamento:
  	ACALL sendCharacter
  	MOV A, #'O'
  	ACALL sendCharacter
- 	ACALL clearDisplay
 
-	SETB P1.0
- 	SETB P1.1
- 	SETB P1.2
- 	CLR P1.3
- 	CLR P1.4
- 	CLR P1.5
- 	CLR P1.6
- 	CLR P1.7
+ 	ACALL clearDisplay ;limpa o display
 
- 	ACALL delayDisplay
+	SETB P1.0 ;seta p1.0 como alto
+ 	SETB P1.1 ;seta p1.1 como alto
+ 	SETB P1.2 ;seta p1.2 como alto
+ 	CLR P1.3 ;seta p1.3 como baixo
+ 	CLR P1.4 ;seta p1.4 como baixo
+ 	CLR P1.5 ;seta p1.5 como baixo
+ 	CLR P1.6 ;seta p1.6 como baixo
+ 	CLR P1.7 ;seta p1.7 como baixo
+
+ 	ACALL delayDisplay ; chama o delay do display
  	RET
+
+
       ;----------------------------------
        
       ;---------------------------------- mensagem de pedido enviado no display
+
+
       enviado:
  	MOV A, #02h
- 	ACALL posicionaCursor 
- 	MOV A, #'S'
+ 	ACALL posicionaCursor ; posiciona o cursor na posição 2
+
+ 	MOV A, #'S' ;exibe "SEU PEDIDO" no display
  	ACALL sendCharacter	
  	MOV A, #'E'
  	ACALL sendCharacter	
@@ -976,10 +1049,13 @@ confimaPagamento:
  	ACALL sendCharacter
  	MOV A, #'O'
  	ACALL sendCharacter
- 	CLR A
+
+ 	CLR A ;limpa o A
+
  	mov A, #41h
- 	ACALL posicionaCursor
- 	MOV A, #'J'
+ 	ACALL posicionaCursor ; posiciona o cursor na posição 41
+
+ 	MOV A, #'J' ;exibe "JA FOI ENVIADO" no display
  	ACALL sendCharacter
  	MOV A, #'A'
  	ACALL sendCharacter
@@ -1007,129 +1083,133 @@ confimaPagamento:
  	ACALL sendCharacter
  	MOV A, #'O'
  	ACALL sendCharacter
- 	ACALL clearDisplay
 
-	SETB P1.0
- 	SETB P1.1
- 	SETB P1.2
- 	SETB P1.3
- 	SETB P1.4
- 	SETB P1.5
- 	SETB P1.6
- 	SETB P1.7
+ 	ACALL clearDisplay ;limpa o display
 
-	ACALL delay100
+	SETB P1.0 ;seta p1.0 como alto
+ 	SETB P1.1 ;seta p1.1 como alto
+ 	SETB P1.2 ;seta p1.2 como alto
+ 	SETB P1.3 ;seta p1.3 como alto
+ 	SETB P1.4 ;seta p1.4 como alto
+ 	SETB P1.5 ;seta p1.5 como alto
+ 	SETB P1.6 ;seta p1.6 como alto
+ 	SETB P1.7 ;seta p1.7 como alto
 
-	CLR P1.0
- 	CLR P1.1
- 	CLR P1.2
- 	CLR P1.3
- 	CLR P1.4
- 	CLR P1.5
- 	CLR P1.6
- 	CLR P1.7
+	ACALL delay100 ; chama o delay de 100 decrementações
 
-	ACALL delay100
+	CLR P1.0 ;seta p1.0 como baixo
+ 	CLR P1.1 ;seta p1.1 como baixo
+ 	CLR P1.2 ;seta p1.2 como baixo
+ 	CLR P1.3 ;seta p1.3 como baixo
+ 	CLR P1.4 ;seta p1.4 como baixo
+ 	CLR P1.5 ;seta p1.5 como baixo
+ 	CLR P1.6 ;seta p1.6 como baixo
+ 	CLR P1.7 ;seta p1.7 como baixo
 
-	SETB P1.0
- 	SETB P1.1
- 	SETB P1.2
- 	SETB P1.3
- 	SETB P1.4
- 	SETB P1.5
- 	SETB P1.6
- 	SETB P1.7
+	ACALL delay100 ; chama o delay de 100 decrementações
 
-	ACALL delay100
+	SETB P1.0 ;seta p1.0 como alto
+ 	SETB P1.1 ;seta p1.1 como alto
+ 	SETB P1.2 ;seta p1.2 como alto
+ 	SETB P1.3 ;seta p1.3 como alto
+ 	SETB P1.4 ;seta p1.4 como alto
+ 	SETB P1.5 ;seta p1.5 como alto
+ 	SETB P1.6 ;seta p1.6 como alto
+ 	SETB P1.7 ;seta p1.7 como alto
 
-	CLR P1.0
- 	CLR P1.1
- 	CLR P1.2
- 	CLR P1.3
- 	CLR P1.4
- 	CLR P1.5
- 	CLR P1.6
- 	CLR P1.7
+	ACALL delay100 ; chama o delay de 100 decrementações
 
-	ACALL delay100
+	CLR P1.0 ;seta p1.0 como baixo
+ 	CLR P1.1 ;seta p1.1 como baixo
+ 	CLR P1.2 ;seta p1.2 como baixo
+ 	CLR P1.3 ;seta p1.3 como baixo
+ 	CLR P1.4 ;seta p1.4 como baixo
+ 	CLR P1.5 ;seta p1.5 como baixo
+ 	CLR P1.6 ;seta p1.6 como baixo
+ 	CLR P1.7 ;seta p1.7 como baixo
 
-	SETB P1.0
- 	SETB P1.1
- 	SETB P1.2
- 	SETB P1.3
- 	SETB P1.4
- 	SETB P1.5
- 	SETB P1.6
- 	SETB P1.7
+	ACALL delay100 ; chama o delay de 100 decrementações
 
-	ACALL delay100
+	SETB P1.0 ;seta p1.0 como alto
+ 	SETB P1.1 ;seta p1.1 como alto
+ 	SETB P1.2 ;seta p1.2 como alto
+ 	SETB P1.3 ;seta p1.3 como alto
+ 	SETB P1.4 ;seta p1.4 como alto
+ 	SETB P1.5 ;seta p1.5 como alto
+ 	SETB P1.6 ;seta p1.6 como alto
+ 	SETB P1.7 ;seta p1.7 como alto
 
-	CLR P1.0
- 	CLR P1.1
- 	CLR P1.2
- 	CLR P1.3
- 	CLR P1.4
- 	CLR P1.5
- 	CLR P1.6
- 	CLR P1.7
+	ACALL delay100 ; chama o delay de 100 decrementações
 
-	ACALL delay100
+	CLR P1.0 ;seta p1.0 como baixo
+ 	CLR P1.1 ;seta p1.1 como baixo
+ 	CLR P1.2 ;seta p1.2 como baixo
+ 	CLR P1.3 ;seta p1.3 como baixo
+ 	CLR P1.4 ;seta p1.4 como baixo
+ 	CLR P1.5 ;seta p1.5 como baixo
+ 	CLR P1.6 ;seta p1.6 como baixo
+ 	CLR P1.7 ;seta p1.7 como baixo
 
-	SETB P1.0
- 	SETB P1.1
- 	SETB P1.2
- 	SETB P1.3
- 	SETB P1.4
- 	SETB P1.5
- 	SETB P1.6
- 	SETB P1.7
+	ACALL delay100 ; chama o delay de 100 decrementações
 
- 	ACALL delayDisplay
+	SETB P1.0 ;seta p1.0 como alto  
+ 	SETB P1.1 ;seta p1.1 como alto
+ 	SETB P1.2 ;seta p1.2 como alto
+ 	SETB P1.3 ;seta p1.3 como alto
+ 	SETB P1.4 ;seta p1.4 como alto
+ 	SETB P1.5 ;seta p1.5 como alto
+ 	SETB P1.6 ;seta p1.6 como alto
+ 	SETB P1.7 ;seta p1.7 como alto
+
+ 	ACALL delayDisplay ; chama o delay do display
  	RET
 
-delayDisplay:
+	;----------------------------------------
+
+	;---------------------------------------- função de delay do display
+
+   delayDisplay:
 	MOV R1, #10            ; Número de iterações externas
-delay_outer:
+   delay_outer:
   	MOV R0, #255           ; Número de iterações internas
-delay_inner:
+   delay_inner:
   	DJNZ R0, delay_inner 
 	DJNZ R1, delay_outer  
   	RET    
 
-delay100:
-	MOV R0, #100
-	DJNZ R0, $
-	RET
+	;---------------------------------------
 
-escolhePagamento:
-		; Configura as linhas de controle como entrada
+	;--------------------------------------- função do delay de 100 decrementações
+
+	delay100: 
+		MOV R0, #100
+		DJNZ R0, $
+		RET
+
+	;--------------------------------------
+
+	;-------------------------------------- função para escolher o pagamento
+
+    escolhePagamento:
 	MOV P2, #0FFH        ; Configura P2 como entrada (todos os bits em 1)
   	MOV A, P2            ; Lê o valor de P2
-
-    ; Verifica se nenhum botão foi pressionado (todos os bits de P2 em 1)
   	CJNE A, #0FFH, CHECABOTOES   ; Se A não for 0xFF, verifica os botões
   	SJMP escolhePagamento                     
-		
-		; Mantenha as outras linhas como saída
        
-      	; Aguarde até que um botão seja pressionado
-CHECABOTOES:
-    ; Verifica qual botão está pressionado, pulando para a opção correspondente
-    JNB P2.0, OPCAO_1   ; Se P2.0 for 0, vai para OPCAO1
-    JNB P2.1, OPCAO_2   ; Se P2.1 for 0, vai para OPCAO2
+	CHECABOTOES:
+    	JNB P2.0, OPCAO_1   ; Se P2.0 for 0, vai para OPCA_1 
+    	JNB P2.1, OPCAO_2   ; Se P2.1 for 0, vai para OPCAO_2
 
-    SJMP escolhePagamento          ; Retorna ao loop principal se nenhum botão está pressionado
-     ; Volte a verificar se um botão foi pressionado
-       
-      ; Definindo as opções
+    	SJMP escolhePagamento          ; Retorna ao loop principal se nenhum botão está pressionado
 
-OPCAO_1:
- 	ACALL clearDisplay
- 	ACALL delayDisplay
+   OPCAO_1:
+ 	ACALL clearDisplay ;limpa o display
+ 	ACALL delayDisplay ; chama o delay do display
 
 	MOV A, #04h
-	ACALL posicionaCursor
-	MOV A, #'D'
+	ACALL posicionaCursor ; posiciona o cursor na posição 04
+
+	MOV A, #'D' ;exibe "DEBITO" no display
 	ACALL sendCharacter
 	MOV A, #'E'
 	ACALL sendCharacter
@@ -1141,17 +1221,18 @@ OPCAO_1:
 	ACALL sendCharacter
 	MOV A, #'O'
 	ACALL sendCharacter
-	CLR A
-RET
 
-OPCAO_2:
- 	ACALL clearDisplay
- 	ACALL delayDisplay
+	CLR A ;limpa o A
+	RET
+
+   OPCAO_2:
+ 	ACALL clearDisplay ;limpa o display
+ 	ACALL delayDisplay ;chama o delay do display
 
 	MOV A, #04h
-	ACALL posicionaCursor
-	ACALL sendCharacter
-	MOV A, #'C'
+	ACALL posicionaCursor ; posiciona o cursor na posição 04
+
+	MOV A, #'C' ;exibe "CREDITO" no display
 	ACALL sendCharacter
 	MOV A, #'R'
 	ACALL sendCharacter
@@ -1165,16 +1246,22 @@ OPCAO_2:
 	ACALL sendCharacter
 	MOV A, #'O'
 	ACALL sendCharacter
-	CLR A
-RET
 
-digiteSuaSenha:
-	ACALL clearDisplay
+	CLR A ;limpa o A
+	RET
+
+	;------------------------------------------------------
+
+	;----------------------------------------------------- função digite sua senha
+
+   digiteSuaSenha:
+	ACALL clearDisplay ;limpa o display
  	ACALL delayDisplay
 
 	MOV A, #04h
-	ACALL posicionaCursor
-	MOV A, #'D'
+	ACALL posicionaCursor ; posiciona o cursor na posição 4
+
+	MOV A, #'D' ;exibe "DIGITE SUA" no display
 	ACALL sendCharacter
 	MOV A, #'I'
 	ACALL sendCharacter
@@ -1194,11 +1281,13 @@ digiteSuaSenha:
 	ACALL sendCharacter
 	MOV A, #'A'
 	ACALL sendCharacter
-	CLR A
 
-	MOV A, #44h
-	ACALL posicionaCursor
-	MOV A, #'S'
+	CLR A ;limpa o A
+
+	MOV A, #44h 
+	ACALL posicionaCursor ; posiciona o cursor na posição 44
+
+	MOV A, #'S' ;exibe "SENHA" no display
 	ACALL sendCharacter
 	MOV A, #'E'
 	ACALL sendCharacter
@@ -1208,42 +1297,38 @@ digiteSuaSenha:
 	ACALL sendCharacter
 	MOV A, #'A'
 	ACALL sendCharacter
-	CLR A
 
+	CLR A ; limpa o A
 
-RET
+	RET
 
-pedeSenha:
-	MOV TMOD, #20H         ; Timer 1 em modo 2 (auto-reload)
-	MOV TH1, #-3           ; Configura para 9600 bps com 11.0592 MHz
+	;--------------------------------------
+
+	;------------------------------------- função para receber a senha 
+
+   pedeSenha:
+	MOV TMOD, #20H         ; Timer 1 em modo 2
+	MOV TH1, #-3           
 	MOV SCON, #50H         ; Modo 1, 8 bits de dados, UART ativada
 	SETB TR1               ; Inicia o Timer 1
   	ACALL UART_Read    ; Lê um caractere via UART
  	ACALL UART_Write
 	RET   ; Escreve o caractere de volta via UART
 
-; Sub-rotina para ler caractere via UART
-UART_Read:
+
+   UART_Read:
     CLR A                  ; Limpa acumulador
-Wait_RX:
+   Wait_RX:
     JNB RI, Wait_RX        ; Espera até que o caractere seja recebido
     MOV A, SBUF            ; Move o caractere recebido para o acumulador
     CLR RI                 ; Limpa o flag de recepção
     RET
 
-; Sub-rotina para enviar caractere via UART
-UART_Write:
+   UART_Write:
     MOV SBUF, A            ; Move o valor do acumulador para SBUF para transmissão
-Wait_TX:
+   Wait_TX:
     JNB TI, Wait_TX        ; Espera até que a transmissão seja concluída
     CLR TI                 ; Limpa o flag de transmissão
     RET
-
-
-
-
-      
-
-
 	                
       ;----------------------------------
