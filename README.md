@@ -1,6 +1,8 @@
 # Programa Automatizado para Casa de Bolos Caseiros
 ## Projeto 1 de Arquitetura de Computadores
-  
+##### Isabella Benevenuto RA: 22.123.007-1
+##### Mateus Marana RA: 22.123.026-1
+
   ### Descrição do Projeto
 #### Este projeto foi desenvolvido para aplicar, na prática, os conhecimentos teóricos e laboratoriais adquiridos na disciplina de Arquitetura de Computadores, integrando-os em uma única implementação.
 
