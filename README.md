@@ -15,10 +15,16 @@
 #### Automação de processos: Conceito de automação aplicado a uma loja fictícia de bolos, com foco na transparência do processo e na experiência do cliente.
 
   ### Segue abaixo algumas fotos das partes principais do projeto:
-  ![Primeira interação com botão](imagens/botão.png)
-  ![Parte com inserção pelo txt](imagens/leds.png)
-  ![Mostrando os leds](imagens/senha.png)
-    OBS: Na parte dos leds, selecionamos uma parte do projeto onde todos ja estavam acesos, mas no desenvolvimento do codigo os leds acendem um por vez (com as cores que foram definidas no fluxograma) até chegar a parte final onde todos permanecem acessos mostrando que foi concluido. 
 
+  #### parte do funcionamento do botão:
+  ![Primeira interação com botão](imagens/botão.png)
+
+  #### parte que mostra o funcionamento dos leds de acordo com a ação
+  ![Parte com inserção pelo txt](imagens/leds.png)
+
+  #### parte que mostra o funcionamento do bloco txt com a inserção da senha
+  ![Mostrando os leds](imagens/senha.png)
+
+   
 ## Fluxograma
-  ![fluxograma](imagens/flux.jpg)
+  ![Clique para visualizar o fluxograma completo](imagens/fluxograma.pdf)
